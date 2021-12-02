@@ -1,4 +1,5 @@
 fun main() {
+
     fun part1(input: List<Pair<String, Int>>): Int {
         var x = 0
         var y = 0
