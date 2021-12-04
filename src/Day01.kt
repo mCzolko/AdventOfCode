@@ -1,6 +1,6 @@
 fun main() {
 
-    fun part1(input: List<Int>): Int {
+    fun part1Mine(input: List<Int>): Int {
         var prevNum = 0
         var i = 0
 
@@ -14,7 +14,11 @@ fun main() {
         return i
     }
 
-    fun part2(input: List<Int>): Int {
+    fun part1(input: List<Int>): Int {
+        return input.windowed(2).count { (a, b) -> a < b }
+    }
+
+    fun part2Mine(input: List<Int>): Int {
         var prevNum = 0
         var i = 0
 
@@ -30,6 +34,10 @@ fun main() {
         }
 
         return i
+    }
+
+    fun part2(input: List<Int>): Int {
+        return input.windowed(4).count { it[0] < it[3] }
     }
 
     val input = readInput("Day01")
