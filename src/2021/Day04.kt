@@ -37,7 +37,7 @@ fun main() {
         }
     }
 
-    val input = readInput("Day04").toMutableList()
+    val input = readInput("2021/Day04").toMutableList()
     val drawnNumbers = input.first().split(',').map { it.toInt() }.toMutableList()
     input.removeFirst()
     val boardsInput = input.filter { it.isNotEmpty() }.windowed(5, 5)

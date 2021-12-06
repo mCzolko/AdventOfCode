@@ -51,7 +51,7 @@ fun main() {
         return 0
     }
 
-    val input = readInput("Day05_test")
+    val input = readInput("2021/Day05_test")
         .map { it.split(" -> ") }
 
     val directions = input.map {

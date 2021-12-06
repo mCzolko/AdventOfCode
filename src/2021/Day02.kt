@@ -34,7 +34,7 @@ fun main() {
         return x * y
     }
 
-    val input = readInput("Day02")
+    val input = readInput("2021/Day02")
         .map { it.split(' ') }
         .map { Pair(it[0], it[1].toInt()) }
 

@@ -43,7 +43,7 @@ fun main() {
         return find(input).first().toInt(2) * find(input, true).first().toInt(2)
     }
 
-    val input = readInput("Day03")
+    val input = readInput("2021/Day03")
     println(part1(input))
     println(part2(input))
 }
