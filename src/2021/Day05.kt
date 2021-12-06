@@ -1,3 +1,4 @@
+import kotlin.math.abs
 import kotlin.math.absoluteValue
 
 fun main() {
@@ -25,8 +26,23 @@ fun main() {
                 return List((from.x - to.x).absoluteValue.plus(1)) { Point((if (from.x < to.x) from.x else to.x).plus(it), to.y) }
             }
 
-            return listOf()
+            val steps = abs(from.x - to.x)
+            val xUp = if (from.x < to.x) 1 else -1
+            val yUp = if (from.y < to.y) 1 else -1
+
+            return (0..steps).map { step ->
+                Point(from.x + step * xUp, from.y + step * yUp)
+            }
         }
+    }
+
+    fun countIntersections(lines: List<Point>, intersectionCount: Int): Int {
+        return lines
+            .map { it.toString() }
+            .groupBy { it }
+            .values
+            .filter { it.size >= intersectionCount }
+            .size
     }
 
     fun part1(input: List<Direction>): Int {
@@ -35,23 +51,18 @@ fun main() {
         val directions = input.filter { it.isHorizontalOrVertical() }
         directions.forEach { linePoints.addAll(it.linePoints()) }
 
-        return linePoints
-            .map { it.toString() }
-            .groupBy { it }
-            .values
-            .filter { it.size > 1 }
-            .size
+        return countIntersections(linePoints, 2)
     }
 
     fun part2(input: List<Direction>): Int {
-        val linePoints = mutableListOf<List<Point>>()
+        val linePoints = mutableListOf<Point>()
 
-        input.forEach { linePoints.add(it.linePoints()) }
+        input.forEach { linePoints.addAll(it.linePoints()) }
 
-        return 0
+        return countIntersections(linePoints, 2)
     }
 
-    val input = readInput("2021/Day05_example")
+    val input = readInput("2021/Day05")
         .map { it.split(" -> ") }
 
     val directions = input.map {
