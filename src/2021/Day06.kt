@@ -1,36 +1,39 @@
 fun main() {
 
-    fun processDay(input: List<Int>, day: Int = 0): Int {
-        if (day == 80) {
-            return input.size
-        }
-
-        val zeroCount = input.count { it == 0 }
-        var nextDay = input.toMutableList()
-
-        if (zeroCount > 0) {
-            nextDay = nextDay.map { if (it == 0) 7 else it }.toMutableList()
-            for (addFish in 0 until zeroCount) {
-                nextDay.add(9)
-            }
-        }
-
-
-        return processDay(nextDay.map { it.minus(1) }, day.plus(1))
+    fun processDay(fishes: Map<Long, Long>): Map<Long, Long> {
+        val nextGen = fishes.mapKeys { (key, _) -> key - 1 }.toMutableMap()
+        nextGen[8] = nextGen.getOrDefault(-1, 0)
+        nextGen[6] = nextGen.getOrDefault(6, 0) + nextGen.getOrDefault(-1, 0)
+        nextGen.remove(-1)
+        return nextGen
     }
 
-    fun part1(input: List<Int>): Int {
-        return processDay(input)
+    fun processGeneration(fishGenerations: List<Long>, days: Int): Long {
+        val mapTimerToCount = fishGenerations
+            .groupBy { it }
+            .mapValues { it.value.size.toLong() }
+
+        var processed = processDay(mapTimerToCount)
+
+        repeat (days - 1) {
+            processed = processDay(processed)
+        }
+
+        return processed.values.reduce { acc, i -> acc + i }
     }
 
-    fun part2(input: List<Int>): Int {
-        return 0
+    fun part1(input: List<Long>): Long {
+        return processGeneration(input, 80)
+    }
+
+    fun part2(input: List<Long>): Long {
+        return processGeneration(input, 256)
     }
 
     val input = readInput("2021/Day06")
         .first()
         .split(',')
-        .map { it.toInt() }
+        .map { it.toLong() }
 
     println(part1(input))
     println(part2(input))
