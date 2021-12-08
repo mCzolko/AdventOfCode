@@ -19,7 +19,16 @@ fun main() {
     }
 
     fun part2(input: List<Int>): Int {
-        return 0
+        val resultList = mutableListOf<Int>()
+
+        for (i in input.minOrNull()!!..input.maxOrNull()!!) {
+            resultList.add(input
+                .map { abs(i - it) }
+                .sumOf { it * (it + 1) / 2 }
+            )
+        }
+
+        return resultList.minOrNull() ?: 0
     }
 
     val input = readInput("2021/Day07")
