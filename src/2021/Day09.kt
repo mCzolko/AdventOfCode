@@ -26,6 +26,25 @@ fun main() {
         return listOfNotNull(above, below, left, right)
     }
 
+
+    fun expandBasin(basin: Set<Position>): Set<Position> {
+        val expandedBasin = basin.toMutableSet()
+        for (position in basin) {
+            expandedBasin.addAll(position.nearBy().filter { it.z != 9 })
+        }
+        return expandedBasin
+    }
+
+    fun findBasin(position: Position): Set<Position> {
+        var basin = setOf(position)
+
+        while (true) {
+            val expandedBasin = expandBasin(basin)
+            if (expandedBasin.size == basin.size) return expandedBasin
+            basin = expandedBasin
+        }
+    }
+
     fun part1(): List<Position> {
         return theMap.filter {
             it.nearBy().all { nearByPosition ->
@@ -34,8 +53,16 @@ fun main() {
         }
     }
 
+    fun part2(): Int {
+        return part1()
+            .map { findBasin(it) }
+            .sortedByDescending { it.size }
+            .take(3)
+            .map { it.size }
+            .reduce { a, b -> a * b }
+    }
 
     println(part1().map { it.z + 1}.sum())
-    // println(part2(input))
+    println(part2())
 
 }
