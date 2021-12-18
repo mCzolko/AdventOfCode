@@ -49,26 +49,31 @@ fun main() {
 
     class PathSearcher(a: Allow) : Allow by a {
 
-        fun searchPath(path: List<String> = listOf("start")): List<List<String>> {
+        fun searchPaths(path: List<String> = listOf("start")): List<List<String>> {
             return if (path.last() == "end") {
                 listOf(path)
             } else {
                 paths.getValue(path.last())
                     .filter { allow(it, path) }
-                    .flatMap { searchPath(path + it) }
+                    .flatMap { searchPaths(path + it) }
             }
         }
 
     }
 
 
+    fun countPaths(allow: Allow): Int {
+        return PathSearcher(allow).searchPaths().size
+    }
+
+
     fun part1(): Int {
-        return PathSearcher(PartOneAllow()).searchPath().size
+        return countPaths(PartOneAllow())
     }
 
 
     fun part2(): Int {
-        return PathSearcher(PartTwoAllow()).searchPath().size
+        return countPaths(PartTwoAllow())
     }
 
 
