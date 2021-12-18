@@ -1,32 +1,13 @@
+interface Allow {
+    fun allow(caveName: String, path: List<String>): Boolean
+}
+
+
 fun main() {
 
-    fun isUppercase(string: String): Boolean {
-        return string.toCharArray().first().isUpperCase()
-    }
+    fun String.isUpperCase(): Boolean = all { it.isUpperCase() }
 
-    fun searchPath(paths: Map<String, List<String>>, path: List<String> = listOf("start")): List<List<String>> {
-        if (path.last() == "end") {
-            return listOf(path)
-        } else {
-            return paths.getValue(path.last())
-                .filter { isUppercase(it) || it !in path }
-                .flatMap {
-                    searchPath(paths, path + it)
-                }
-        }
-    }
-
-    fun part1(paths: Map<String, List<String>>): Int {
-        return searchPath(paths).size
-    }
-
-
-    fun part2(): Int {
-        return 0
-    }
-
-
-    val input = readInput("2021/Day12")
+    val paths = readInput("2021/Day12")
         .map { it.split("-") }
         .flatMap {
             listOf(
@@ -35,9 +16,63 @@ fun main() {
             )
         }
         .groupBy({ it.first }, { it.second })
-    println(input)
 
-    println(part1(input))
+
+
+
+    class PartOneAllow : Allow {
+
+        override fun allow(caveName: String, path: List<String>): Boolean {
+            return caveName.isUpperCase() || caveName !in path
+        }
+
+    }
+
+
+    class PartTwoAllow : Allow {
+
+        override fun allow(caveName: String, path: List<String>): Boolean {
+            return when {
+                caveName.isUpperCase() -> true
+                caveName == "start" -> false
+                caveName !in path -> true
+                else -> {
+                    path
+                        .filterNot { it.isUpperCase() }
+                        .groupBy { it }
+                        .none { it.value.size == 2 }
+                }
+            }
+        }
+    }
+
+
+    class PathSearcher(a: Allow) : Allow by a {
+
+        fun searchPath(path: List<String> = listOf("start")): List<List<String>> {
+            return if (path.last() == "end") {
+                listOf(path)
+            } else {
+                paths.getValue(path.last())
+                    .filter { allow(it, path) }
+                    .flatMap { searchPath(path + it) }
+            }
+        }
+
+    }
+
+
+    fun part1(): Int {
+        return PathSearcher(PartOneAllow()).searchPath().size
+    }
+
+
+    fun part2(): Int {
+        return PathSearcher(PartTwoAllow()).searchPath().size
+    }
+
+
+    println(part1())
     println(part2())
 
 }
