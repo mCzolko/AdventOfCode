@@ -4,12 +4,12 @@ fun main() {
     val input = inputRaw.split("").filter { it != "" }
 
 
-    fun partOne(): Int {
+    fun visitHouses(instructions: List<String>): List<String> {
         val housesVisited = mutableListOf<String>()
         housesVisited.add("0|0")
         var position = Pair(0, 0)
 
-        input.forEach {
+        instructions.forEach {
             when (it) {
                 "^" -> position = Pair(position.first.plus(1), position.second)
                 "v" -> position = Pair(position.first.minus(1), position.second)
@@ -19,12 +19,20 @@ fun main() {
             housesVisited.add("${position.first}|${position.second}")
         }
 
-        return housesVisited.distinct().size
+        return housesVisited
+    }
+
+
+    fun partOne(): Int {
+        return visitHouses(input).distinct().size
     }
 
 
     fun partTwo(): Int {
-        return 0
+        val santaHouses = input.filterIndexed { index, s -> index % 2 == 0 }
+        val roboSantaHouses = input.filterIndexed { index, s -> index % 2 != 0 }
+
+        return (visitHouses(santaHouses) + visitHouses(roboSantaHouses)).distinct().size
     }
 
 
