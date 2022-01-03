@@ -9,51 +9,65 @@ fun main() {
     }
 
 
-    fun polymeeeree(count: Int): String {
-        var polymer = template
+    class Polymer(val key: String, var count: Long)
 
-        for (i in 0 until count) {
-            val windowed = polymer.windowed(2)
-            polymer = windowed.mapIndexed { index, s ->
-                arrayOf(
-                    s[0],
-                    instructions.get(s),
-                    if (index == windowed.size - 1) s[1] else ""
-                ).joinToString("")
-            }.joinToString("")
 
-            // println("After step ${i + 1}: ${polymer}")
+    fun countPolymers(list: List<Polymer>): Long {
+        val polymerCountMap = mutableMapOf<Char, Long>()
+
+        list.forEach {
+            polymerCountMap[it.key[1]] = polymerCountMap.getOrDefault(it.key[1], 0).plus(it.count)
         }
 
-        return polymer
+        val firstLetter = list.first().key[0]
+        polymerCountMap[firstLetter] = polymerCountMap.getOrDefault(firstLetter, 0).plus(list.first().count)
+
+        return polymerCountMap.values.maxOf { it } - polymerCountMap.values.minOf { it }
     }
 
 
-    fun countPolymere(line: String): Int {
-        val map = mutableMapOf<String, Int>()
-        val windowed = line.windowed(1)
-        val charList = windowed.distinct()
+    fun polymerFission(polymerList: List<Polymer>): List<Polymer> {
+        val fissionList = mutableListOf<Polymer>()
 
-        for (char in charList) {
-            map.set(char, windowed.filter { it == char }.size)
+        polymerList.forEach { polymer ->
+            val fissionKeyOne = polymer.key[0] + instructions.get(polymer.key)!!
+            val fissionKeyTwo = instructions.get(polymer.key) + polymer.key[1]
+
+            fissionList.add(Polymer(fissionKeyOne, polymer.count))
+            fissionList.add(Polymer(fissionKeyTwo, polymer.count))
         }
 
-        val values = map.values
+        // memory optimization
+        val reducedFissionList = mutableListOf<Polymer>()
+        fissionList.map { it.key }.distinct().forEach {
+            val count = fissionList.filter { polymer -> it == polymer.key }.sumOf { it.count }
+            reducedFissionList.add(Polymer(it, count))
+        }
 
-        return values.maxOf { it } - values.minOf { it }
+        return reducedFissionList
     }
 
 
-    fun part1(): Int {
-        return countPolymere(polymeeeree(10))
+    fun fission(count: Int): List<Polymer> {
+        var polymerList = template.windowed(2).map { Polymer(it, 1) }
+
+        repeat(count) {
+            polymerList = polymerFission(polymerList)
+        }
+
+        return polymerList
     }
 
 
-    fun part2(): Int {
-        return 0
+    fun part1(): Long {
+        return countPolymers(fission(10))
+    }
+
+
+    fun part2(): Long {
+        return countPolymers(fission(40))
     }
 
     println(part1())
     println(part2())
-
 }
