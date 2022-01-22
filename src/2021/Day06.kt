@@ -1,3 +1,7 @@
+package `2021`
+
+import readInput
+
 fun main() {
 
     fun processDay(fishes: Map<Long, Long>): Map<Long, Long> {

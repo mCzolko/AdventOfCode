@@ -1,3 +1,7 @@
+package `2015`
+
+import readInput
+
 fun main() {
 
     val inputRaw = readInput("2015/Day03").first().trim()

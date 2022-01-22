@@ -1,3 +1,7 @@
+package `2016`
+
+import readInput
+
 fun main() {
 
     val input = readInput("2016/Day02").map { it.windowed(1) }

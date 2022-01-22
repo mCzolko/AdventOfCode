@@ -1,3 +1,6 @@
+package `2020`
+
+import readInput
 import java.lang.StringBuilder
 import java.math.BigInteger
 

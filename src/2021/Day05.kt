@@ -1,3 +1,6 @@
+package `2021`
+
+import readInput
 import kotlin.math.abs
 import kotlin.math.absoluteValue
 

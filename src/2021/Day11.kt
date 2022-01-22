@@ -1,3 +1,7 @@
+package `2021`
+
+import readInput
+
 fun main() {
 
     val input = readInput("2021/Day11")

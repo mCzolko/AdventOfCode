@@ -1,3 +1,6 @@
+package `2016`
+
+import readInput
 import kotlin.math.absoluteValue
 
 fun main() {

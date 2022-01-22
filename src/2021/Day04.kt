@@ -1,3 +1,7 @@
+package `2021`
+
+import readInput
+
 fun main() {
 
     open class Cell(var n: Int)

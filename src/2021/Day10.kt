@@ -1,3 +1,8 @@
+package `2021`
+
+import median
+import readInput
+
 fun main() {
 
     fun part1(input: List<String>): Int {

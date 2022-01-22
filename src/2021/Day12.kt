@@ -1,3 +1,8 @@
+package `2021`
+
+import readInput
+
+
 interface Allow {
     fun allow(caveName: String, path: List<String>): Boolean
 }
