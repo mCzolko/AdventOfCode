@@ -9,7 +9,7 @@ data class Folder(val path: String, var parent: Folder? = null) {
 
 fun main() {
 
-    fun find(input: List<String>): List<Int> {
+    fun folderSizeStack(input: List<String>): List<Int> {
         val root = Folder("/")
         var current = root
 
@@ -40,14 +40,14 @@ fun main() {
     }
 
     fun part1(input: List<String>): Int {
-        val root = find(input)
-        return root.filter { it <= 100000 }.sum()
+        val stack = folderSizeStack(input)
+        return stack.filter { it <= 100000 }.sum()
     }
 
     fun part2(input: List<String>): Int {
-        val root = find(input)
-        val filter = 30000000 - (70000000 - root.max())
-        return root.filter { it >= filter }.min()
+        val stack = folderSizeStack(input)
+        val filter = 30000000 - (70000000 - stack.max())
+        return stack.filter { it >= filter }.min()
     }
 
     val input = readInput("2022/Day07")
