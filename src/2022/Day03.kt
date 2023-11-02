@@ -27,7 +27,7 @@ fun main() {
     }
 
 
-    fun part2(input: List<String>): Int = resolve(input.windowed(3, 3))
+    fun part2(input: List<String>): Int = resolve(input.windowed(4, 4))
 
 
     val input = readInput("2022/Day03")
