@@ -41,11 +41,7 @@ fun main() {
     }
 
     fun List<Int>.multiply(): Int {
-        var last = this.first()
-        this.takeLast(this.size - 1).forEach {
-            last *= it
-        }
-        return last
+        return this.reduce { acc, num -> acc * num }
     }
 
     /**
