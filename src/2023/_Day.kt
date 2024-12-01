@@ -1,4 +1,4 @@
-package `2024`
+package `2023`
 
 import readInput
 import println
@@ -31,7 +31,7 @@ fun main() {
      */
 
     println("Test Day 1:")
-    val testInput = parseInput(readInput("2024/Day01_test"))
+    val testInput = parseInput(readInput("2023/Day01_test"))
     part1(testInput).println()
     check(part1(testInput) == 6)
     part2(testInput).println()
@@ -42,7 +42,7 @@ fun main() {
      */
 
     println("Result Day 1:")
-    val input = parseInput(readInput("2024/Day01"))
+    val input = parseInput(readInput("2023/Day01"))
     part1(input).println()
     part2(input).println()
 }
