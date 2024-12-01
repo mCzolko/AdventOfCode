@@ -65,7 +65,8 @@ fun main() {
         return input
             .map { it.second }
             .sumOf { gameSets ->
-                gameSets.flatten()
+                gameSets
+                    .flatten()
                     .groupBy { it.color }
                     .map {
                         it.value.maxOf { color -> color.count }
