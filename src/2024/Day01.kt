@@ -1,4 +1,4 @@
-package `2022`
+package `2024`
 
 import kotlin.math.abs
 import readInput
