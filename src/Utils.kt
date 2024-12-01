@@ -27,3 +27,9 @@ fun median(input: List<Long>): Long {
     else
         return (input[middle - 1] + input[middle]) / 2
 }
+
+/**
+ * The cleaner shorthand for printing output.
+ */
+fun Any?.println() = println(this)
+
