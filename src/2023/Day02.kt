@@ -16,16 +16,28 @@ fun main() {
      */
 
     fun parseRow(row: String): GameSets {
-        return row.split(':').last().trim().split(';').map { sets -> sets.trim().split(',').map { it.trim() } }.map { sets ->
-            sets.map {
-                val (count, color, _) = it.trim().split(' ')
-                Color(color, count.toInt())
+        return row
+            .split(':')
+            .last()
+            .trim()
+            .split(';')
+            .map { sets ->
+                sets
+                    .trim()
+                    .split(',')
+                    .map { it.trim() }
+            }.map { sets ->
+                sets.map {
+                    val (count, color, _) = it.trim().split(' ')
+                    Color(color, count.toInt())
+                }
             }
-        }
     }
 
     fun parseInput(input: List<String>): List<Game> {
-        return input.mapIndexed { i, row -> Pair(i + 1, parseRow(row)) }
+        return input.mapIndexed { i, row ->
+            Pair(i + 1, parseRow(row))
+        }
     }
 
     fun List<Int>.multiply(): Int {
@@ -55,10 +67,14 @@ fun main() {
 
     fun part2(input: List<Game>): Int {
         return input
-            .map { it.second }.sumOf { gameSets ->
-                gameSets.flatten().groupBy { it.color }.map {
-                    it.value.maxOf { color -> color.count }
-                }.multiply()
+            .map { it.second }
+            .sumOf { gameSets ->
+                gameSets.flatten()
+                    .groupBy { it.color }
+                    .map {
+                        it.value.maxOf { color -> color.count }
+                    }
+                    .multiply()
             }
     }
 
